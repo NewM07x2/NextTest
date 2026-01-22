@@ -6,14 +6,14 @@ WORKDIR /app
 # Install dependencies for Prisma and build tools
 RUN apk add --no-cache openssl
 
-# Copy package files only
+# Copy package files and configuration
 COPY package.json package-lock.json* ./
+COPY next.config.mjs tsconfig.json postcss.config.js tailwind.config.ts ./
 
 # Install all dependencies (including dev dependencies)
 RUN npm install --legacy-peer-deps
 
 # Note: Application code is mounted as a volume in docker-compose.yml
-# No need to copy source code here for development
 
 # Expose the port
 EXPOSE 3000
