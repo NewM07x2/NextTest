@@ -126,14 +126,27 @@ Docker ビルド時に除外するファイルを指定します。
 
 ## トラブルシューティング
 
+### データベースが unhealthy 状態になる
+
+```bash
+# 既存のコンテナとボリュームを完全に削除
+cd docker
+docker-compose down -v
+
+# 再起動
+docker-compose up -d
+
+# データベースログを確認
+docker-compose logs -f db
+```
+
 ### ポート 3000 が既に使用されている
 
 ```bash
 # 既存のコンテナを確認
 docker ps
 
-# 別のポートで起動
-docker-compose up -d -e PORT=3001
+# 別のポートで起動する場合は docker-compose.yml を編集
 ```
 
 ### データベース接続エラー
@@ -144,13 +157,26 @@ docker-compose ps
 
 # データベースログ確認
 docker-compose logs db
+
+# データベースに直接接続して確認
+docker-compose exec db psql -U postgres -d nextapp
+```
+
+### 孤立したコンテナ（orphan containers）の警告
+
+```bash
+# 孤立したコンテナを削除
+docker-compose down --remove-orphans
+
+# 再起動
+docker-compose up -d
 ```
 
 ### キャッシュのクリア
 
 ```bash
 # イメージの削除と再ビルド
-docker-compose down
+docker-compose down -v
 docker system prune -a
 docker-compose up -d --build
 ```

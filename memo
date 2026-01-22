@@ -1,0 +1,8 @@
+# 既存のコンテナを削除してクリーンな状態にする
+docker-compose down -v
+
+# 再起動
+docker-compose up -d
+
+# データベースのログを確認
+docker-compose logs db
