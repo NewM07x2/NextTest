@@ -1,83 +1,45 @@
-(base) mnitta@MasatonoMacBook-Pro docker % docker-compose up -d
-Compose can now delegate builds to bake for better performance.
- To do so, set COMPOSE_BAKE=true.
-[+] Building 19.0s (11/11) FINISHED                                                                                                                  docker:desktop-linux
- => [app internal] load build definition from Dockerfile                                                                                                             0.0s
- => => transferring dockerfile: 945B                                                                                                                                 0.0s
- => [app internal] load metadata for docker.io/library/node:20-alpine                                                                                                0.4s
- => [app internal] load .dockerignore                                                                                                                                0.0s
- => => transferring context: 2B                                                                                                                                      0.0s
- => [app 1/7] FROM docker.io/library/node:20-alpine@sha256:3960ed74dfe320a67bf8da9555b6bade25ebda2b22b6081d2f60fd7d5d430e9c                                          0.0s
- => [app internal] load build context                                                                                                                                0.0s
- => => transferring context: 1.20kB                                                                                                                                  0.0s
- => CACHED [app 2/7] WORKDIR /app                                                                                                                                    0.0s
- => CACHED [app 3/7] RUN apk add --no-cache openssl                                                                                                                  0.0s
- => CACHED [app 4/7] COPY package.json package-lock.json* ./                                                                                                         0.0s
- => CACHED [app 5/7] COPY next.config.mjs tsconfig.json postcss.config.js tailwind.config.ts ./                                                                      0.0s
- => CACHED [app 6/7] COPY src/lib/prisma ./src/lib/prisma/                                                                                                           0.0s
- => ERROR [app 7/7] RUN npm install --legacy-peer-deps                                                                                                              18.6s
-------                                                                                                                                                                    
- > [app 7/7] RUN npm install --legacy-peer-deps:                                                                                                                          
-6.652 npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation                                           
-17.92                                                                                                                                                                     
-17.92 > sample@0.1.0 postinstall                                                                                                                                          
-17.92 > prisma generate                                                                                                                                                   
-17.92 
-18.22 Error: Could not find Prisma Schema that is required for this command.
-18.22 You can either provide it with `--schema` argument, set it as `prisma.schema` in your package.json or put it into the default location.
-18.22 Checked following paths:
-18.22 
-18.22 schema.prisma: file not found
-18.22 prisma/schema.prisma: file not found
-18.22 prisma/schema: directory not found
-18.22 
-18.22 See also https://pris.ly/d/prisma-schema-location
-18.23 npm error code 1
-18.23 npm error path /app
-18.23 npm error command failed
-18.23 npm error command sh -c prisma generate
-18.23 npm notice
-18.23 npm notice New major version of npm available! 10.8.2 -> 11.8.0
-18.23 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.8.0
-18.23 npm notice To update run: npm install -g npm@11.8.0
-18.23 npm notice
-18.23 npm error A complete log of this run can be found in: /root/.npm/_logs/2026-01-22T03_57_03_970Z-debug-0.log
-------
-failed to solve: process "/bin/sh -c npm install --legacy-peer-deps" did not complete successfully: exit code: 1
-(base) mnitta@MasatonoMacBook-Pro docker % docker-compose up -d
-Compose can now delegate builds to bake for better performance.
- To do so, set COMPOSE_BAKE=true.
-[+] Building 21.4s (13/13) FINISHED                                                                                                                  docker:desktop-linux
- => [app internal] load build definition from Dockerfile                                                                                                             0.0s
- => => transferring dockerfile: 945B                                                                                                                                 0.0s
- => [app internal] load metadata for docker.io/library/node:20-alpine                                                                                                0.7s
- => [app internal] load .dockerignore                                                                                                                                0.0s
- => => transferring context: 2B                                                                                                                                      0.0s
- => [app 1/7] FROM docker.io/library/node:20-alpine@sha256:3960ed74dfe320a67bf8da9555b6bade25ebda2b22b6081d2f60fd7d5d430e9c                                          0.0s
- => [app internal] load build context                                                                                                                                0.0s
- => => transferring context: 3.02kB                                                                                                                                  0.0s
- => CACHED [app 2/7] WORKDIR /app                                                                                                                                    0.0s
- => CACHED [app 3/7] RUN apk add --no-cache openssl                                                                                                                  0.0s
- => [app 4/7] COPY package.json package-lock.json* ./                                                                                                                0.0s
- => [app 5/7] COPY next.config.mjs tsconfig.json postcss.config.js tailwind.config.ts ./                                                                             0.0s
- => [app 6/7] COPY src/lib/prisma ./src/lib/prisma/                                                                                                                  0.0s
- => [app 7/7] RUN npm install --legacy-peer-deps                                                                                                                    18.5s
- => [app] exporting to image                                                                                                                                         2.0s 
- => => exporting layers                                                                                                                                              2.0s 
- => => writing image sha256:f6acd2f895f8a286e345c480b59ddb293eda91ec5671d4211ff38786b8eb7abc                                                                         0.0s 
- => => naming to docker.io/library/docker-app                                                                                                                        0.0s 
- => [app] resolving provenance for metadata file                                                                                                                     0.0s 
-[+] Running 1/2                                                                                                                                                           
- ✔ app                      Built                                                                                                                                    0.0s 
-[+] Running 4/4er_NextTest  Creating                                                                                                                                 0.0s 
- ✔ app                      Built                                                                                                                                    0.0s 
- ✔ Network docker_NextTest  Created                                                                                                                                  0.0s 
- ✘ Container NextTest_db    Error                                                                                                                                    2.0s 
- ✔ Container NextTest       Created                                                                                                                                  1.2s 
-dependency failed to start: container NextTest_db is unhealthy
-(base) mnitta@MasatonoMacBook-Pro docker % docker-compose up -d
+(base) mnitta@MasatonoMacBook-Pro docker % docker-compose down -v   
+[+] Running 4/4
+ ✔ Container NextTest           Removed                                                                                                                              0.3s 
+ ✔ Container NextTest_db        Removed                                                                                                                              0.0s 
+ ! Volume docker_postgres_data  Resource is still in use                                                                                                             0.0s 
+ ✔ Network docker_NextTest      Removed                                                                                                                              0.2s 
+(base) mnitta@MasatonoMacBook-Pro docker % docker-compose up -d    
 WARN[0000] Found orphan containers ([supabase_kong supabase_storage supabase_auth supabase_rest supabase_realtime supabase_inbucket supabase_postgres]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up. 
-[+] Running 1/1
- ✘ Container NextTest_db  Error                                                                                                                                      0.5s 
+[+] Running 3/3
+ ✔ Network docker_NextTest  Created                                                                                                                                  0.0s 
+ ✘ Container NextTest_db    Error                                                                                                                                    3.6s 
+ ✔ Container NextTest       Created                                                                                                                                  1.9s 
 dependency failed to start: container NextTest_db is unhealthy
+(base) mnitta@MasatonoMacBook-Pro docker % docker-compose logs db
+NextTest_db  | 
+NextTest_db  | PostgreSQL Database directory appears to contain a database; Skipping initialization
+NextTest_db  | 
+NextTest_db  | 2026-01-22 04:08:40.429 UTC [1] FATAL:  database files are incompatible with server
+NextTest_db  | 2026-01-22 04:08:40.429 UTC [1] DETAIL:  The data directory was initialized by PostgreSQL version 15, which is not compatible with this version 16.11.
+NextTest_db  | 
+NextTest_db  | PostgreSQL Database directory appears to contain a database; Skipping initialization
+NextTest_db  | 
+NextTest_db  | 2026-01-22 04:08:40.633 UTC [1] FATAL:  database files are incompatible with server
+NextTest_db  | 2026-01-22 04:08:40.633 UTC [1] DETAIL:  The data directory was initialized by PostgreSQL version 15, which is not compatible with this version 16.11.
+NextTest_db  | 
+NextTest_db  | PostgreSQL Database directory appears to contain a database; Skipping initialization
+NextTest_db  | 
+NextTest_db  | 2026-01-22 04:08:40.962 UTC [1] FATAL:  database files are incompatible with server
+NextTest_db  | 2026-01-22 04:08:40.962 UTC [1] DETAIL:  The data directory was initialized by PostgreSQL version 15, which is not compatible with this version 16.11.
+NextTest_db  | 
+NextTest_db  | PostgreSQL Database directory appears to contain a database; Skipping initialization
+NextTest_db  | 
+NextTest_db  | 2026-01-22 04:08:41.472 UTC [1] FATAL:  database files are incompatible with server
+NextTest_db  | 2026-01-22 04:08:41.472 UTC [1] DETAIL:  The data directory was initialized by PostgreSQL version 15, which is not compatible with this version 16.11.
+NextTest_db  | 
+NextTest_db  | PostgreSQL Database directory appears to contain a database; Skipping initialization
+NextTest_db  | 
+NextTest_db  | 2026-01-22 04:08:42.382 UTC [1] FATAL:  database files are incompatible with server
+NextTest_db  | 2026-01-22 04:08:42.382 UTC [1] DETAIL:  The data directory was initialized by PostgreSQL version 15, which is not compatible with this version 16.11.
+NextTest_db  | 
+NextTest_db  | PostgreSQL Database directory appears to contain a database; Skipping initialization
+NextTest_db  | 
+NextTest_db  | 2026-01-22 04:08:44.103 UTC [1] FATAL:  database files are incompatible with server
+NextTest_db  | 2026-01-22 04:08:44.103 UTC [1] DETAIL:  The data directory was initialized by PostgreSQL version 15, which is not compatible with this version 16.11.
 (base) mnitta@MasatonoMacBook-Pro docker % 
