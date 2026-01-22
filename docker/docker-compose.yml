@@ -3,13 +3,13 @@ version: "3.8"
 services:
   app:
     build:
-      context: ./next
-      dockerfile: ../docker/Dockerfile
+      context: ../next
+      dockerfile: ./Dockerfile
     container_name: nextapp_dev
     ports:
       - "3000:3000"
     volumes:
-      - ./next:/app
+      - ../next:/app
       - /app/node_modules
       - /app/.next
     environment:
@@ -22,6 +22,8 @@ services:
     command: npm run dev
     networks:
       - nextapp
+    stdin_open: true
+    tty: true
 
   db:
     image: postgres:16-alpine

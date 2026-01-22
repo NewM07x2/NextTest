@@ -9,27 +9,23 @@
 
 ## クイックスタート
 
-### 1. 環境変数の準備
-
-プロジェクトのルートディレクトリに `.env.docker` ファイルが自動生成されています。
-必要に応じて内容を編集してください。
-
-### 2. Docker コンテナの起動
+### 1. Docker コンテナの起動
 
 ```bash
-# ルートディレクトリから実行
+# docker フォルダから実行
+cd docker
 docker-compose up -d
 
-# または npm スクリプトで実行
+# または、next フォルダの npm スクリプトで実行
 cd next
 npm run docker:up
 ```
 
-### 3. アプリケーションにアクセス
+### 2. アプリケーションにアクセス
 
 ブラウザで `http://localhost:3000` にアクセスしてください。
 
-### 4. データベースのマイグレーション
+### 3. データベースのマイグレーション
 
 ```bash
 # コンテナ内で Prisma マイグレーションを実行
@@ -79,20 +75,24 @@ docker-compose exec app npx prisma migrate status
 
 ## ディレクトリ構造
 
-```
+```text
 NextTest/
-├── next/                          # Next.js アプリケーション
-│   ├── src/
-│   ├── public/
-│   ├── package.json
-│   ├── tsconfig.json
-│   └── ...
 ├── docker/
 │   ├── Dockerfile                # マルチステージビルド対応
 │   ├── docker-compose.yml        # 本番・開発共通設定
 │   └── .dockerignore             # Docker ビルド除外設定
-├── docker-compose.override.yml   # 開発環境用オーバーライド
-└── .env.docker                   # Docker 環境変数
+│
+├── next/                          # Next.js アプリケーション
+│   ├── src/
+│   ├── public/
+│   ├── package.json              # docker スクリプト
+│   ├── .env.local                # ローカル環境設定
+│   ├── tsconfig.json
+│   └── ...
+│
+├── .gitignore                    # ルートレベル除外設定
+├── README.md                     # プロジェクト概要
+└── DOCKER_SETUP.md               # このファイル
 ```
 
 ## ファイル説明
@@ -113,13 +113,6 @@ NextTest/
 - ネットワーク設定
 - ボリューム管理
 - ヘルスチェック設定
-
-### docker-compose.override.yml
-
-開発環境専用のオーバーライド設定：
-
-- Builder ステージの使用（高速な開発ビルド）
-- ホットリロード対応のボリュームマウント
 - インタラクティブシェル対応（stdin_open, tty）
 
 ### .dockerignore
@@ -127,10 +120,9 @@ NextTest/
 Docker ビルド時に除外するファイルを指定します。
 ビルド時間を短縮し、イメージサイズを削減します。
 
-### .env.local と .env.docker
+### .env.local
 
-- `.env.local`: 個別の開発環境設定（Git に含まれない）
-- `.env.docker`: Docker コンテナ環境の共通設定
+ローカル開発環境の設定ファイルです（Git に含まれません）
 
 ## トラブルシューティング
 

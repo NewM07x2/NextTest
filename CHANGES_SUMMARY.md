@@ -65,6 +65,15 @@
 - インタラクティブシェル対応
 ```
 
+#### `docker-compose.override.yml` (開発環境専用設定)
+
+```text
+- 開発環境では自動的に読み込まれる
+- Builder ステージを使用（高速開発ビルド）
+- ホットリロード対応のボリュームマウント
+- インタラクティブシェル対応
+```
+
 #### `.env.local` (ローカル開発環境変数)
 
 ```text
@@ -84,13 +93,13 @@
 ### 4. package.json スクリプト追加
 
 ```json
-"docker:build": "docker-compose build"      # イメージビルド
-"docker:up": "docker-compose up -d"         # コンテナ起動
-"docker:down": "docker-compose down"        # コンテナ停止
-"docker:logs": "docker-compose logs -f app" # ログ表示
-"docker:db:logs": "docker-compose logs -f db"
-"docker:shell": "docker-compose exec app sh" # コンテナシェル
-"docker:db:shell": "docker-compose exec db psql -U postgres -d nextapp"
+"docker:build": "docker-compose -f ../docker/docker-compose.yml build"
+"docker:up": "docker-compose -f ../docker/docker-compose.yml up -d"
+"docker:down": "docker-compose -f ../docker/docker-compose.yml down"
+"docker:logs": "docker-compose -f ../docker/docker-compose.yml logs -f app"
+"docker:db:logs": "docker-compose -f ../docker/docker-compose.yml logs -f db"
+"docker:shell": "docker-compose -f ../docker/docker-compose.yml exec app sh"
+"docker:db:shell": "docker-compose -f ../docker/docker-compose.yml exec db psql -U postgres -d nextapp"
 ```
 
 ### 5. ドキュメント作成
@@ -99,7 +108,7 @@
 
 - クイックスタートガイド
 - よく使うコマンド集
-- トラッキングシューティング
+- トラブルシューティング
 - ファイル説明
 - 本番環境デプロイ手順
 
@@ -115,19 +124,16 @@
 
 ```text
 NextTest/
-├── .gitignore                    # ← NEW: ルートレベル
-├── .env.docker                   # ← NEW: Docker 共通設定
-├── docker-compose.override.yml   # ← NEW: 開発環境オーバーライド
-├── DOCKER_SETUP.md               # ← NEW: セットアップガイド
+├── .gitignore
 │
-├── docker/
-│   ├── Dockerfile                # ← UPDATED: マルチステージビルド
-│   ├── docker-compose.yml        # ← UPDATED: 改善版
-│   └── .dockerignore             # ← NEW: ビルド除外設定
+├── docker/                       # Docker 関連をすべてこのフォルダに集約
+│   ├── Dockerfile                # マルチステージビルド
+│   ├── docker-compose.yml        # 本番・開発共通設定（stdin_open, tty 対応）
+│   └── .dockerignore             # ビルド除外設定
 │
 └── next/
-    ├── .env.local                # ← NEW: ローカル環境設定
-    ├── package.json              # ← UPDATED: スクリプト追加
+    ├── .env.local                # ローカル環境設定
+    ├── package.json              # Docker スクリプト
     ├── src/
     ├── public/
     └── ...
@@ -138,8 +144,12 @@ NextTest/
 ### 1. 初回セットアップ
 
 ```bash
-# ルートディレクトリから実行
-cd NextTest
+# docker フォルダから実行するか、next フォルダから npm スクリプトで実行
+cd docker
+docker-compose up -d
+
+# または next フォルダから
+cd next
 npm run docker:up
 ```
 
