@@ -10,7 +10,7 @@ RUN apk add --no-cache openssl python3 make g++
 COPY package.json package-lock.json ./
 
 # Install dependencies with npm ci for reproducibility
-RUN npm ci
+RUN npm ci --legacy-peer-deps
 
 # Copy Prisma schema
 COPY src/lib/prisma ./src/lib/prisma/
@@ -41,7 +41,7 @@ ENV NODE_ENV=production
 COPY package.json package-lock.json ./
 
 # Install only production dependencies
-RUN npm ci --only=production
+RUN npm install --omit=dev --legacy-peer-deps
 
 # Copy Prisma schema and generated client from builder
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
