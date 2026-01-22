@@ -1,8 +1,10 @@
-./src/app/page.tsx:5:0
-Module not found: Can't resolve '../components/sample/List'
-  3 |
-  4 | // components
-> 5 | import { List } from '../components/sample/List';
-  6 | import { Title } from '../components/sample/Title'
-  7 | import { Count } from '../components/sample/Count'
-  8 | import { Event } from '../components/sample/Event'
+./src/app/providers.tsx:5:0
+Module not found: Can't resolve '../store/store'
+  3 | import { Provider } from 'react-redux'
+  4 | import { UrqlProvider } from '@urql/next'
+> 5 | import { store } from '../store/store'
+  6 | import { urqlClient } from '../lib/graphql/urqlClient'
+  7 |
+  8 | export function Providers({ children }: { children: React.ReactNode }) {
+
+https://nextjs.org/docs/messages/module-not-found
