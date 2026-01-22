@@ -1,15 +1,15 @@
-# Build stage
-FROM node:20-alpine AS builder
+# Development environment for Next.js
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Install dependencies for Prisma and build tools
-RUN apk add --no-cache openssl python3 make g++
+# Install dependencies for Prisma
+RUN apk add --no-cache openssl
 
 # Copy package files
 COPY package.json package-lock.json* ./
 
-# Install dependencies with npm install (allows lock file to be regenerated)
+# Install all dependencies (including dev dependencies)
 RUN npm install --legacy-peer-deps
 
 # Copy Prisma schema
@@ -18,38 +18,10 @@ COPY src/lib/prisma ./src/lib/prisma/
 # Generate Prisma Client
 RUN npx prisma generate
 
-# Copy source code
+# Copy application code
 COPY src ./src
 COPY public ./public
 COPY next.config.mjs tsconfig.json postcss.config.js tailwind.config.ts ./
-
-# Build Next.js application
-RUN npm run build
-
-# Production stage
-FROM node:20-alpine
-
-WORKDIR /app
-
-# Install runtime dependencies for Prisma
-RUN apk add --no-cache openssl
-
-# Set environment to production
-ENV NODE_ENV=production
-
-# Copy package files
-COPY package.json package-lock.json* ./
-
-# Install only production dependencies
-RUN npm install --omit=dev --legacy-peer-deps
-
-# Copy Prisma schema and generated client from builder
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /app/src/lib/prisma ./src/lib/prisma
-
-# Copy built application from builder
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
 
 # Expose the port
 EXPOSE 3000
@@ -58,5 +30,5 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
   CMD node -e "require('http').get('http://localhost:3000', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"
 
-# Start the application
-CMD ["npm", "run", "start"]
+# Start the Next.js application in development mode
+CMD ["npm", "run", "dev"]
