@@ -1,11 +1,9 @@
-version: "3.9"
-
 services:
   app:
     build:
       context: ../next
       dockerfile: ../docker/Dockerfile
-    container_name: nextapp_dev
+    container_name: NextTest
     ports:
       - "3000:3000"
     volumes:
@@ -23,13 +21,13 @@ services:
         condition: service_healthy
     command: npm run dev
     networks:
-      - nextapp
+      - NextTest
     stdin_open: true
     tty: true
 
   db:
     image: postgres:16-alpine
-    container_name: nextapp_db
+    container_name: NextTest_db
     restart: unless-stopped
     ports:
       - "5432:5432"
@@ -45,10 +43,10 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - nextapp
+      - NextTest
 
 networks:
-  nextapp:
+  NextTest:
     driver: bridge
 
 volumes:

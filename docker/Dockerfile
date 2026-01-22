@@ -10,6 +10,9 @@ RUN apk add --no-cache openssl
 COPY package.json package-lock.json* ./
 COPY next.config.mjs tsconfig.json postcss.config.js tailwind.config.ts ./
 
+# Copy Prisma schema
+COPY src/lib/prisma ./src/lib/prisma/
+
 # Install all dependencies (including dev dependencies)
 RUN npm install --legacy-peer-deps
 
