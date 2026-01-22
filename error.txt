@@ -1,45 +1,8 @@
-(base) mnitta@MasatonoMacBook-Pro docker % docker-compose down -v   
-[+] Running 4/4
- ✔ Container NextTest           Removed                                                                                                                              0.3s 
- ✔ Container NextTest_db        Removed                                                                                                                              0.0s 
- ! Volume docker_postgres_data  Resource is still in use                                                                                                             0.0s 
- ✔ Network docker_NextTest      Removed                                                                                                                              0.2s 
-(base) mnitta@MasatonoMacBook-Pro docker % docker-compose up -d    
-WARN[0000] Found orphan containers ([supabase_kong supabase_storage supabase_auth supabase_rest supabase_realtime supabase_inbucket supabase_postgres]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up. 
-[+] Running 3/3
- ✔ Network docker_NextTest  Created                                                                                                                                  0.0s 
- ✘ Container NextTest_db    Error                                                                                                                                    3.6s 
- ✔ Container NextTest       Created                                                                                                                                  1.9s 
-dependency failed to start: container NextTest_db is unhealthy
-(base) mnitta@MasatonoMacBook-Pro docker % docker-compose logs db
-NextTest_db  | 
-NextTest_db  | PostgreSQL Database directory appears to contain a database; Skipping initialization
-NextTest_db  | 
-NextTest_db  | 2026-01-22 04:08:40.429 UTC [1] FATAL:  database files are incompatible with server
-NextTest_db  | 2026-01-22 04:08:40.429 UTC [1] DETAIL:  The data directory was initialized by PostgreSQL version 15, which is not compatible with this version 16.11.
-NextTest_db  | 
-NextTest_db  | PostgreSQL Database directory appears to contain a database; Skipping initialization
-NextTest_db  | 
-NextTest_db  | 2026-01-22 04:08:40.633 UTC [1] FATAL:  database files are incompatible with server
-NextTest_db  | 2026-01-22 04:08:40.633 UTC [1] DETAIL:  The data directory was initialized by PostgreSQL version 15, which is not compatible with this version 16.11.
-NextTest_db  | 
-NextTest_db  | PostgreSQL Database directory appears to contain a database; Skipping initialization
-NextTest_db  | 
-NextTest_db  | 2026-01-22 04:08:40.962 UTC [1] FATAL:  database files are incompatible with server
-NextTest_db  | 2026-01-22 04:08:40.962 UTC [1] DETAIL:  The data directory was initialized by PostgreSQL version 15, which is not compatible with this version 16.11.
-NextTest_db  | 
-NextTest_db  | PostgreSQL Database directory appears to contain a database; Skipping initialization
-NextTest_db  | 
-NextTest_db  | 2026-01-22 04:08:41.472 UTC [1] FATAL:  database files are incompatible with server
-NextTest_db  | 2026-01-22 04:08:41.472 UTC [1] DETAIL:  The data directory was initialized by PostgreSQL version 15, which is not compatible with this version 16.11.
-NextTest_db  | 
-NextTest_db  | PostgreSQL Database directory appears to contain a database; Skipping initialization
-NextTest_db  | 
-NextTest_db  | 2026-01-22 04:08:42.382 UTC [1] FATAL:  database files are incompatible with server
-NextTest_db  | 2026-01-22 04:08:42.382 UTC [1] DETAIL:  The data directory was initialized by PostgreSQL version 15, which is not compatible with this version 16.11.
-NextTest_db  | 
-NextTest_db  | PostgreSQL Database directory appears to contain a database; Skipping initialization
-NextTest_db  | 
-NextTest_db  | 2026-01-22 04:08:44.103 UTC [1] FATAL:  database files are incompatible with server
-NextTest_db  | 2026-01-22 04:08:44.103 UTC [1] DETAIL:  The data directory was initialized by PostgreSQL version 15, which is not compatible with this version 16.11.
-(base) mnitta@MasatonoMacBook-Pro docker % 
+./src/app/page.tsx:5:0
+Module not found: Can't resolve '../components/sample/List'
+  3 |
+  4 | // components
+> 5 | import { List } from '../components/sample/List';
+  6 | import { Title } from '../components/sample/Title'
+  7 | import { Count } from '../components/sample/Count'
+  8 | import { Event } from '../components/sample/Event'
