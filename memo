@@ -6,3 +6,18 @@ docker-compose up -d
 
 # データベースのログを確認
 docker-compose logs db
+
+# 1. PostgreSQL 15の古いボリュームを強制削除
+docker volume rm docker_postgres_data
+
+# 2. 念のため孤立コンテナも削除
+docker-compose down --remove-orphans
+
+# 3. クリーンな状態で再起動
+docker-compose up -d
+
+# 4. 起動確認
+docker-compose ps
+
+# 5. ログ確認（問題があれば）
+docker-compose logs -f
