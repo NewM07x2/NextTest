@@ -7,10 +7,10 @@ WORKDIR /app
 RUN apk add --no-cache openssl python3 make g++
 
 # Copy package files
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json* ./
 
-# Install dependencies with npm ci for reproducibility
-RUN npm ci --legacy-peer-deps
+# Install dependencies with npm install (allows lock file to be regenerated)
+RUN npm install --legacy-peer-deps
 
 # Copy Prisma schema
 COPY src/lib/prisma ./src/lib/prisma/
@@ -38,7 +38,7 @@ RUN apk add --no-cache openssl
 ENV NODE_ENV=production
 
 # Copy package files
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json* ./
 
 # Install only production dependencies
 RUN npm install --omit=dev --legacy-peer-deps
