@@ -21,3 +21,12 @@ docker-compose ps
 
 # 5. ログ確認（問題があれば）
 docker-compose logs -f
+
+# next ディレクトリで依存をインストール
+cd next
+npm install --legacy-peer-deps
+
+# Dockerコンテナを削除して、クリーンな状態で再ビルド
+cd ../docker
+docker-compose down -v --remove-orphans
+docker-compose up -d
