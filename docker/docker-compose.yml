@@ -9,7 +9,10 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ../next:/app
+      # Mount only source code, keep node_modules in container
+      - ../next/src:/app/src
+      - ../next/public:/app/public
+      - ../next/.env.local:/app/.env.local
       - /app/node_modules
       - /app/.next
     environment:
