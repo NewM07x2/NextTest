@@ -10,7 +10,14 @@
     "postinstall": "prisma generate",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest --coverage"
+    "test:coverage": "vitest --coverage",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f app",
+    "docker:db:logs": "docker-compose logs -f db",
+    "docker:shell": "docker-compose exec app sh",
+    "docker:db:shell": "docker-compose exec db psql -U postgres -d nextapp"
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",

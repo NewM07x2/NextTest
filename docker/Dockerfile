@@ -1,29 +1,62 @@
-# Use the official Node.js 18 image as the base image
-FROM node:18-alpine
+# Build stage
+FROM node:20-alpine AS builder
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Install dependencies for Prisma
-RUN apk add --no-cache openssl
+# Install dependencies for Prisma and build tools
+RUN apk add --no-cache openssl python3 make g++
 
-# Copy package.json and package-lock.json (or yarn.lock) into the container
-COPY package*.json ./
+# Copy package files
+COPY package.json package-lock.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies with npm ci for reproducibility
+RUN npm ci
 
 # Copy Prisma schema
-COPY prisma ./prisma/
+COPY src/lib/prisma ./src/lib/prisma/
 
 # Generate Prisma Client
 RUN npx prisma generate
 
-# Copy the rest of the application code into the container
-COPY . .
+# Copy source code
+COPY src ./src
+COPY public ./public
+COPY next.config.mjs tsconfig.json postcss.config.js tailwind.config.ts ./
 
-# Expose the port the app runs on
+# Build Next.js application
+RUN npm run build
+
+# Production stage
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install runtime dependencies for Prisma
+RUN apk add --no-cache openssl
+
+# Set environment to production
+ENV NODE_ENV=production
+
+# Copy package files
+COPY package.json package-lock.json ./
+
+# Install only production dependencies
+RUN npm ci --only=production
+
+# Copy Prisma schema and generated client from builder
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/src/lib/prisma ./src/lib/prisma
+
+# Copy built application from builder
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+
+# Expose the port
 EXPOSE 3000
 
-# Start the Next.js application in development mode
-CMD ["npm", "run", "dev"]
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3000', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"
+
+# Start the application
+CMD ["npm", "run", "start"]
